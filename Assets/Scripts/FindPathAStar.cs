@@ -51,6 +51,19 @@ public class FindPathAStar : MonoBehaviour {
     List<PathMarker> open = new List<PathMarker>();
     List<PathMarker> closed = new List<PathMarker>();
 
+    public void SpawnMarkers() {
+      BeginSearch();
+      hasStarted = true;
+    }
+
+    public void ContinueSearch() {
+      if (hasStarted) Search(lastPos);
+    }
+
+    public void ShowPath() {
+      if (hasStarted) GetPath();
+    }
+
     void RemoveAllMarkers() {
         GameObject[] markers = GameObject.FindGameObjectsWithTag("marker");
         foreach (GameObject m in markers) Destroy(m);
@@ -170,16 +183,5 @@ public class FindPathAStar : MonoBehaviour {
         new Vector3(startNode.location.x * maze.scale, 0.0f, startNode.location.z * maze.scale), 
         Quaternion.identity
       );
-    }
-
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.P)) {
-            BeginSearch();
-            hasStarted = true;
-        }
-
-        if (hasStarted && Input.GetKeyDown(KeyCode.C)) Search(lastPos);
-
-        if (Input.GetKeyDown(KeyCode.M)) GetPath();
     }
 }
